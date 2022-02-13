@@ -23,20 +23,14 @@ contract Donation {
 
     }
 
-    function checkSender(address addr) internal view returns(bool) { 
-        for(uint256 i = 0; i < donators.length; i++) {
-            if(donators[i] == addr) return true;
-        }
-        return false;
+    function checkSender(address addr) public view returns(bool) {
+    return money[addr] > 0;
     }
 
-    function getDonation() external {
-        require(msg.sender == owner);
-        owner.transfer(address(this).balance);
-    }
-
-    function Donators() public view returns (address[] memory) {
-        return donators;
+    function getDonation(address payable addr, uint amount) external {
+    // Transfer donates ONLY to contract owner
+    require(msg.sender == owner);
+    addr.transfer(amount);
     }
 
     function totalDonation(address addr) public view returns (uint256) {
